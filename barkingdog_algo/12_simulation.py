@@ -1,13 +1,53 @@
 import itertools
+from copy import deepcopy
 import sys
 input = sys.stdin.readline
 
 # ... 포기
+# https://velog.io/@ms269/%EB%B0%B1%EC%A4%80-15683-%EA%B0%90%EC%8B%9C-%ED%8C%8C%EC%9D%B4%EC%8D%AC-Python
+answer = 1e9
 def boj15683():
+    def dfs(graph, depth):
+        global answer
+
+        if depth==len(cctvs): # 모든 cctv 방문
+            answer = min(answer, sum([row.count(0) for row in graph])) # 최소 사각지대
+            return
+
+        x, y = cctvs[depth] # cctv 위치
+        for dirs in mode[graph[x][y]]: # cctv 번호에 해당하는 방향
+            temp = deepcopy(graph) # 복사
+
+            for i in dirs: # 각 방향마다
+                nx, ny = x, y
+
+                while True: # 벽이나 가장자리 도달하기 전까지
+                    nx+=dx[i]
+                    ny+=dy[i]
+                    if nx<0 or nx>=N or ny<0 or ny>=M: break
+                    if temp[nx][ny]==6: break
+                    elif temp[nx][ny]==0: temp[nx][ny]=-1 # 감시영역
+
+            dfs(temp, depth+1) # 다음 cctv
+
     N, M = map(int, input().split())  # 세로, 가로
-    board = [map(int, input().split()) for _ in range(N)]
+    board = [list(map(int, input().split())) for _ in range(N)]
+    dx = [1,0,-1,0]
+    dy = [0,1,0,-1]
+    mode = {
+        1: [[0],[1],[2],[3]],
+        2: [[0,2],[1,3]],
+        3: [[0,1],[1,2],[2,3],[0,3]],
+        4: [[0,1,2],[0,1,3],[1,2,3],[0,2,3]],
+        5: [[0,1,2,3]]
+    }
+    cctvs = []
+    for i in range(N):
+        for j in range(M):
+            if 0< board[i][j] <6: cctvs.append((i,j))
 
-
+    dfs(board, 0)
+    print(answer)
 
 
 # 1도 모르겠음...
@@ -79,4 +119,4 @@ def boj15686():
 
 
 if __name__ == '__main__':
-    boj15686()
+    boj15683()
