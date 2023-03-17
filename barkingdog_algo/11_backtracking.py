@@ -138,6 +138,40 @@ def boj15652():
     arr = []
     func(1)
 
+def boj15654():
+    def func():
+        if len(sequence)==M:
+            print(' '.join(map(str,sequence)))
+            return
+        for i in range(N):
+            if arr[i] not in sequence:
+                sequence.append(arr[i])
+                func()
+                sequence.pop()
+
+    N, M = map(int, input().split())
+    arr = list(map(int, input().split()))
+    arr.sort()
+    sequence =[]
+    func()
+
+
+def boj15655():
+    def func(start):
+        if len(sequence)==M:
+            print(' '.join(map(str,sequence)))
+            return
+        for i in range(start,N):
+            sequence.append(arr[i])
+            func(i+1)
+            sequence.pop()
+
+    N, M = map(int, input().split())
+    arr = list(map(int, input().split()))
+    arr.sort()
+    sequence =[]
+    func(0)
+
 
 def boj6603():
     def func(start):
@@ -164,4 +198,4 @@ def boj6603():
 
 if __name__ == '__main__':
     count = 0
-    boj6603()
+    boj15655()

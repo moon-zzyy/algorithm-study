@@ -1,10 +1,11 @@
 import itertools
 from copy import deepcopy
+from collections import deque
 import sys
 input = sys.stdin.readline
 
-# ... 포기
-# https://velog.io/@ms269/%EB%B0%B1%EC%A4%80-15683-%EA%B0%90%EC%8B%9C-%ED%8C%8C%EC%9D%B4%EC%8D%AC-Python
+
+# 참고: https://velog.io/@ms269/%EB%B0%B1%EC%A4%80-15683-%EA%B0%90%EC%8B%9C-%ED%8C%8C%EC%9D%B4%EC%8D%AC-Python
 answer = 1e9
 def boj15683():
     def dfs(graph, depth):
@@ -31,7 +32,7 @@ def boj15683():
             dfs(temp, depth+1) # 다음 cctv
 
     N, M = map(int, input().split())  # 세로, 가로
-    board = [list(map(int, input().split())) for _ in range(N)]
+    board = [list(map(int, input().split())) for _ in range(N)] # 사무실
     dx = [1,0,-1,0]
     dy = [0,1,0,-1]
     mode = {
@@ -41,7 +42,7 @@ def boj15683():
         4: [[0,1,2],[0,1,3],[1,2,3],[0,2,3]],
         5: [[0,1,2,3]]
     }
-    cctvs = []
+    cctvs = [] # cctv 위치
     for i in range(N):
         for j in range(M):
             if 0< board[i][j] <6: cctvs.append((i,j))
@@ -118,5 +119,60 @@ def boj15686():
     print(min(dist)) # 여러 치킨거리 중 최소
 
 
+def boj11559():
+
+    def BFS(i,j):
+        queue = deque([i,j])
+        match = deque([i,j])
+        visited[i][j] = True
+        while queue:
+            x, y = queue.popleft()
+            color = board[x][y]
+            for k in range(4):
+                nx, ny = x+dx[k], y+dy[k]
+                if 0<=nx<N and 0<=ny<M:
+                    if not visited[i][j] and board[nx][ny]==color:
+                        visited[nx][ny]=True
+                        queue.append((nx,ny))
+                        match.append((nx,ny))
+
+        flag=False # 연쇄 여부
+        if len(match)>=4:
+            flag=True
+            delete()
+        return flag
+
+    def delete(match): # 4칸이상 블록 삭제
+        for x, y in match:
+            board[x][y] = '.'
+
+    def down():
+        for i in range(6):
+            for j in range(10, -1, -1):
+                for k in range(11, j, -1):
+                    if board[j][i] != "." and board[k][i] == ".":
+                        board[k][i] = board[j][i]
+                        board[j][i] = "."
+                        break
+
+
+    N, M = 12, 6
+    board = [list(input().strip()) for _ in range(N)]
+    dx = [1,0,-1,0]
+    dy = [0,1,0,-1]
+    answer = 0
+    while True:
+        visited = [[False] * M for _ in range(N)]
+        flag = False
+        for i in range(N):
+            for j in range(M):
+                if board[i][j]!='.' and not visited:
+                    flag = BFS(i, j)
+        if not flag: break
+        down()
+        answer+=1
+
+    print(answer)
+
 if __name__ == '__main__':
-    boj15683()
+    boj11559()
