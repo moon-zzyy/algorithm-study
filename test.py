@@ -1,22 +1,14 @@
-from collections import deque
+N = int(input())
+dp = [0]*(N+1)
+for i in range(2,N+1):
+    dp[i] = dp[i-1] + 1
+    if i%2==0: dp[i] = min(dp[i], dp[i//2]+1)
+    if i%3==0: dp[i] = min(dp[i], dp[i//3]+1)
 
-x=int(input())
-Q=deque([x])
-dp=[0]*(x+1)
-
-while Q:
-    c=Q.popleft()
-    if c==1: break
-
-    Q.append(c-1)
-    dp[c-1]=dp[c]+1
-    if c%3==0 :
-        Q.append(c//3)
-        dp[c//3]=min(dp[c//3],dp[c]+1)
-    if c%2==0 :
-        Q.append(c//2)
-        dp[c//2]=min(dp[c//2],dp[c]+1)
-
-
-print(dp[1])
+count = dp[N]
+print(N, end= ' ')
+for i in range(N-1,0,-1):
+    if dp[i]<count:
+        count=dp[i]
+        print(i, end=' ')
 
