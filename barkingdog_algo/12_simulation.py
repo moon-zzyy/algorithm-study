@@ -118,12 +118,13 @@ def boj15686():
 
     print(min(dist)) # 여러 치킨거리 중 최소
 
-
+# *
+# 참고: https://resilient-923.tistory.com/322
 def boj11559():
 
     def BFS(i,j):
-        queue = deque([i,j])
-        match = deque([i,j])
+        queue = deque([(i,j)])
+        match = deque([(i,j)])
         visited[i][j] = True
         while queue:
             x, y = queue.popleft()
@@ -131,7 +132,7 @@ def boj11559():
             for k in range(4):
                 nx, ny = x+dx[k], y+dy[k]
                 if 0<=nx<N and 0<=ny<M:
-                    if not visited[i][j] and board[nx][ny]==color:
+                    if not visited[nx][ny] and board[nx][ny]==color: # 방문안함 + 같은색
                         visited[nx][ny]=True
                         queue.append((nx,ny))
                         match.append((nx,ny))
@@ -139,14 +140,14 @@ def boj11559():
         flag=False # 연쇄 여부
         if len(match)>=4:
             flag=True
-            delete()
+            delete(match)
         return flag
 
     def delete(match): # 4칸이상 블록 삭제
         for x, y in match:
             board[x][y] = '.'
 
-    def down():
+    def down(): # 블록 내리키
         for i in range(6):
             for j in range(10, -1, -1):
                 for k in range(11, j, -1):
@@ -155,24 +156,75 @@ def boj11559():
                         board[j][i] = "."
                         break
 
-
     N, M = 12, 6
     board = [list(input().strip()) for _ in range(N)]
     dx = [1,0,-1,0]
     dy = [0,1,0,-1]
     answer = 0
-    while True:
+
+    while True: # 연쇄 없을 때까지
         visited = [[False] * M for _ in range(N)]
-        flag = False
-        for i in range(N):
-            for j in range(M):
-                if board[i][j]!='.' and not visited:
-                    flag = BFS(i, j)
-        if not flag: break
+        is_chain = False # 연쇄 여부
+        for x in range(N):
+            for y in range(M):
+                if board[x][y]!='.' and not visited[x][y]:
+                    if BFS(x, y): is_chain=True
+        if not is_chain: break
         down()
         answer+=1
 
     print(answer)
 
+
+def boj14891():
+    def rotate(n, dir):
+        # wheel = ''
+        if dir==1: # clock-wise
+            wheel=wheels[n][-1]+wheels[n][:-1]
+        else:
+            wheel=wheels[n][1:]+wheels[n][0]
+        return wheel
+
+    wheels = [input().strip() for _ in range(4)]
+
+    for _ in range(int(input())):
+        rotated = []
+        n, dir = map(int, input().split())
+
+        if n<=2: # 1, 2
+            temp = dir
+            if wheels[0][2] != wheels[1][-2]: # 1,2 비교
+                rotated.append((n, temp))
+                temp*=-1
+                rotated.append((3-n, temp))
+            if wheels[1][2] != wheels[2][-2]:# 3,2 비교
+                temp*=-1
+                rotated.append((3, temp))
+                if wheels[2][2] != wheels[3][-2]:# 3,4 비교
+                    temp*=-1
+                    rotated.append((4, temp))
+
+        else: # 3, 4
+            temp = dir
+            if wheels[2][2] != wheels[3][-2]:# 3,4 비교
+                rotated.append((n, temp))
+                temp*=-1
+                rotated.append((7-n, temp))
+            if wheels[1][2] != wheels[2][-2]:# 3,2 비교
+                temp*=-1
+                rotated.append((2, temp))
+                if wheels[0][2] != wheels[1][-2]:# 1,2 비교
+                    temp*=-1
+                    rotated.append((1, temp))
+
+        for n, dir in rotated:
+            wheels[n-1]=rotate(n-1, dir)
+
+    answer = 0
+    for i, wheel in enumerate(wheels):
+        answer+=int(wheel[0])*(2**i)
+    print(answer)
+
+
 if __name__ == '__main__':
-    boj11559()
+    boj14891()
