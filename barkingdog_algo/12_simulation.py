@@ -175,53 +175,32 @@ def boj11559():
 
     print(answer)
 
-
+# *
+# 참고: https://velog.io/@ms269/%EB%B0%B1%EC%A4%80-14891-%ED%86%B1%EB%8B%88%EB%B0%94%ED%80%B4-%ED%8C%8C%EC%9D%B4%EC%8D%AC-Python
 def boj14891():
-    def rotate(n, dir):
-        # wheel = ''
-        if dir==1: # clock-wise
-            wheel=wheels[n][-1]+wheels[n][:-1]
-        else:
-            wheel=wheels[n][1:]+wheels[n][0]
-        return wheel
+    def rotate_right(n, d):
+        if n>4 or wheels[n-1][2] == wheels[n][6]:
+            return
+        rotate_right(n+1, -d)
+        wheels[n].rotate(d)
 
-    wheels = [input().strip() for _ in range(4)]
+    def rotate_left(n, d):
+        if n<1 or wheels[n][2] == wheels[n+1][6]:
+            return
+        rotate_left(n-1, -d)
+        wheels[n].rotate(d)
 
+    wheels = {}
+    for i in range(1,5):
+        wheels[i] = deque((map(int,input().strip())))
     for _ in range(int(input())):
-        rotated = []
         n, dir = map(int, input().split())
-
-        if n<=2: # 1, 2
-            temp = dir
-            if wheels[0][2] != wheels[1][-2]: # 1,2 비교
-                rotated.append((n, temp))
-                temp*=-1
-                rotated.append((3-n, temp))
-            if wheels[1][2] != wheels[2][-2]:# 3,2 비교
-                temp*=-1
-                rotated.append((3, temp))
-                if wheels[2][2] != wheels[3][-2]:# 3,4 비교
-                    temp*=-1
-                    rotated.append((4, temp))
-
-        else: # 3, 4
-            temp = dir
-            if wheels[2][2] != wheels[3][-2]:# 3,4 비교
-                rotated.append((n, temp))
-                temp*=-1
-                rotated.append((7-n, temp))
-            if wheels[1][2] != wheels[2][-2]:# 3,2 비교
-                temp*=-1
-                rotated.append((2, temp))
-                if wheels[0][2] != wheels[1][-2]:# 1,2 비교
-                    temp*=-1
-                    rotated.append((1, temp))
-
-        for n, dir in rotated:
-            wheels[n-1]=rotate(n-1, dir)
+        rotate_right(n+1, -dir) # 현재 톱니바퀴의 오른쪽 회전
+        rotate_left(n-1, -dir) # 현재 톱니바퀴의 왼쪽 회전
+        wheels[n].rotate(dir) # 1: 시계방향으로 한 칸 회전
 
     answer = 0
-    for i, wheel in enumerate(wheels):
+    for i,wheel in enumerate(wheels.values()):
         answer+=int(wheel[0])*(2**i)
     print(answer)
 
