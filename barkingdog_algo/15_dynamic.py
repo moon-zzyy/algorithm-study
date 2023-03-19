@@ -102,6 +102,51 @@ def boj12852():
         if now==1: break
         now = pre[now]
 
+def boj1003():
+    dp = [[0]] * 41
+    dp[0]=[1,0]
+    dp[1]=[0,1]
+    for i in range(2,41):
+        x, y = dp[i-1][0]+dp[i-2][0], dp[i-1][1]+dp[i-2][1]
+        dp[i] = [x, y]
+    for _ in range(int(input())):
+        N = int(input())
+        print(dp[N][0], dp[N][1])
+
+
+def boj1932():
+    N = int(input())
+    dp = [list(map(int, input().split())) for _ in range(N)]
+
+    for i in range(1,N):
+        for j in range(i+1):
+            if j==0:
+                dp[i][j]+=dp[i-1][j]
+            elif j==i:
+                dp[i][j] += dp[i-1][j-1]
+            else:
+                dp[i][j] += max(dp[i-1][j-1], dp[i-1][j])
+    print(max(dp[N-1]))
+
+# velog
+def boj11727():
+    N = int(input())
+    dp = [0, 1, 3]
+
+    for i in range(3, N + 1):
+        # dp.append((dp[i-2]*2 + dp[i-1]) % 10007)
+        if i%2==0: dp.append((dp[i-1]*2+1) % 10007)
+        else: dp.append((dp[i-1]*2-1) % 10007)
+
+    print(dp[N])
+
+
+def boj2193():
+    N = int(input())
+    dp = [0,1,1]
+    for i in range(3,N+1):
+        dp.append(dp[i-1]+dp[i-2])
+    print(dp[N])
 
 if __name__=='__main__':
-    boj12852()
+    boj2193()
