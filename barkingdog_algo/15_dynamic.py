@@ -199,6 +199,56 @@ def boj9461():
         N = int(input())
         print(dp[N])
 
+# velog
+def boj14501():
+    N = int(input())
+    arr = []
+    for _ in range(N):
+        arr.append(list(map(int, input().split())))
+    dp = [0]*(N+1)
+    for i in range(N-1, -1, -1):
+        t, p = arr[i]
+        if i+t > N: # 퇴사일 이후
+            dp[i] = dp[i+1]
+        else: # 현재+1, 현재금액+현재시간이후금액
+            dp[i] = max(dp[i+1], p+dp[i+t])
+
+    print(dp[0])
+
+
+# velog 위와 같은 답
+def boj15486():
+    N = int(input())
+    arr = []
+    for _ in range(N):
+        arr.append(list(map(int, input().split())))
+    dp = [0] * (N + 1)
+    for i in range(N - 1, -1, -1):
+        t, p = arr[i]
+        if i + t > N:  # 퇴사일 이후
+            dp[i] = dp[i + 1]
+        else:  # 현재+1, 현재금액+현재시간이후금액
+            dp[i] = max(dp[i + 1], p + dp[i + t])
+
+    print(dp[0])
+
+# 참고: https://pacific-ocean.tistory.com/151
+# dp[자릿수][1의자리]
+def boj15486():
+    N = int(input())
+    dp = [[0]*10 for _ in range(N+1)]
+    for j in range(1, 10):
+        dp[1][j]=1
+    for i in range(2, N+1):
+        for j in range(10):
+            if j==0:
+                dp[i][j]=dp[i-1][1]
+            elif j==9:
+                dp[i][j]=dp[i-1][8]
+            else:
+                dp[i][j]=dp[i-1][j-1]+dp[i-1][j+1]
+    print(sum(dp[N])%1000000000)
+
 
 if __name__ == '__main__':
-    boj9461()
+    boj14501()
