@@ -83,6 +83,33 @@ def boj11501():
                 max_price = arr[i]
         print(answer)
 
+# *
+# 참고: https://jokerldg.github.io/algorithm/2021/03/15/number-tie.html
+def boj1744():
+    N = int(input())
+    pos,neg = [], []
+    answer=0
+    for _ in range(N):
+        num = int(input())
+        if num==1: answer+=1 # 1 처리
+        elif num>0: pos.append(num)
+        else: neg.append(num)
+    pos.sort() # 오름차순
+    neg.sort(reverse=True) # 내림차순
+
+    for i in range(len(pos)//2): # 큰순으로 곱하기
+        x=pos.pop()
+        y=pos.pop()
+        answer+=x*y
+    if pos: answer+=pos.pop() # 홀수인경우
+    for i in range(len(neg)//2): # 작은순으로 곱하기(음수*음수=양수)
+        x=neg.pop()
+        y=neg.pop()
+        answer+=x*y
+    if neg: answer+=neg.pop() # 홀수인경우
+
+    print(answer)
+
 
 if __name__=='__main__':
-    boj11501()
+    boj1744()
