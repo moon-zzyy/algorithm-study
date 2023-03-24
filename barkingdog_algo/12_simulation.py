@@ -205,5 +205,23 @@ def boj14891():
     print(answer)
 
 
+# velog
+# 참고: https://velog.io/@highcho/Algorithm-bakejoon-13335
+def boj13335():
+    N, W, L = map(int, input().split())
+    arr = list(map(int, input().split()))
+    bridge = [0]*W # 다리위 트럭
+    answer = 0
+    while bridge: # 마지막 들어가 빠져나갈 때까지
+        answer+=1
+        bridge.pop(0) # 다리 첫번째 요소
+        if arr: # 트럭이 있으면 트럭 또는 빈 공간 채우기
+            if sum(bridge)+arr[0]<=L:
+                bridge.append(arr.pop(0))
+            else:
+                bridge.append(0)
+    print(answer)
+
+    
 if __name__ == '__main__':
     boj14891()
