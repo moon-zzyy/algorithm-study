@@ -76,5 +76,20 @@ def boj18870_2():
         print(lower_bound(target, len(sorted_arr)), end=' ')
 
 
+def boj2295():
+    N = int(input())
+    arr = [i for i in int(input())]
+    arr.sort()
+    add_arr, sub_arr = [], []
+    for i in range(N-1):
+        for j in range(i+1,N+1):
+            add_arr.append(arr[i]+arr[j])
+    for i in range(N-1):
+        for j in range(i+1,N+1):
+            sub_arr.append(arr[j]-arr[i])
+
+
+
+
 if __name__=='__main__':
     boj18870()
