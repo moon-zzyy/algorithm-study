@@ -254,6 +254,36 @@ def boj14503():
 
     print(answer)
 
+# 참고: https://pacific-ocean.tistory.com/363
+def boj14499():
+    def move(dir): # dice[1]: 위, dice[6]: 바닥
+        if dir==1: # 동
+            dice[1],dice[3],dice[4],dice[6] = dice[4],dice[1],dice[6],dice[3]
+        elif dir==2: # 서
+            dice[1],dice[3],dice[4],dice[6] = dice[3],dice[6],dice[1],dice[4]
+        elif dir==3: #북
+            dice[1],dice[2],dice[5],dice[6] = dice[5],dice[1],dice[6],dice[2]
+        else: # 남
+            dice[1],dice[2],dice[5],dice[6] = dice[2],dice[6],dice[1],dice[5]
+
+    N, M, x, y, K = map(int, input().split())
+    board = [list(map(int, input().split())) for _ in range(N)]
+    dirs = list(map(int,input().split()))
+    dx = [0,0,-1,1] # E, W, N, S
+    dy = [1,-1,0,0]
+    dice = [0]*7 # 주사위 숫자
+    for dir in dirs:
+        nx, ny = x+dx[dir-1], y+dy[dir-1]
+        if 0<=nx<N and 0<=ny<M:
+            x, y = nx, ny
+            move(dir)
+            if board[x][y] == 0:  # 주사위 숫자 복사
+                board[x][y] = dice[6]
+            else:  # 바닥 숫자 복사
+                dice[6] = board[x][y]
+                board[x][y] = 0
+            print(dice[1])
+
 
 if __name__ == '__main__':
-    boj14503()
+    boj14499()
