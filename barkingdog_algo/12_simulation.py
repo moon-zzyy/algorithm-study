@@ -222,6 +222,6 @@ def boj13335():
                 bridge.append(0)
     print(answer)
 
-    
+
 if __name__ == '__main__':
     boj14891()

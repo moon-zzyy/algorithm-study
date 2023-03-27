@@ -151,4 +151,4 @@ def boj1992():
 
 
 if __name__ == '__main__':
-    boj1992()
+    boj1074()
