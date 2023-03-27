@@ -222,6 +222,38 @@ def boj13335():
                 bridge.append(0)
     print(answer)
 
+# *
+# https://github.com/encrypted-def/basic-algo-lecture/blob/master/0x0D/solutions/14503.cpp
+def boj14503():
+    N, M = map(int, input().split())
+    x,y, d = map(int, input().split())
+    board = [list(map(int, input().split())) for _ in range(N)]
+    dx = [-1,0,1,0] # N, W, S, E
+    dy = [0,-1,0,1]
+    dir= {0:0,1:3,2:2,3:1}
+    answer = 0
+    d=dir[d] # 초기 방향
+    
+    while True:
+        if board[x][y]==0:
+            board[x][y]=-1 # 방문처리
+            answer+=1
+        cleaned = False # 네 방향 중 청소된 곳 여부
+        for _ in range(4): # 반시계방향
+            d = (d+1)%4
+            if board[x+dx[d]][y+dy[d]]==0:
+                x, y = x+dx[d], y+dy[d]
+                cleaned=True
+                break
+
+        if not cleaned: # 청소안함
+            if board[x-dx[d]][y-dy[d]]==1: # 후진시 벽
+                break # 종료
+            else: # 후진
+                x, y = x-dx[d], y-dy[d]
+
+    print(answer)
+
 
 if __name__ == '__main__':
-    boj14891()
+    boj14503()
