@@ -75,21 +75,26 @@ def boj18870_2():
     for target in arr:
         print(lower_bound(target, len(sorted_arr)), end=' ')
 
-
+# *
+# 참고: https://2hs-rti.tistory.com/entry/%EB%B0%B1%EC%A4%80-2295%EB%B2%88-%EC%84%B8-%EC%88%98%EC%9D%98-%ED%95%A9-%ED%8C%8C%EC%9D%B4%EC%8D%AC
+# x+y+z=k -> x+y=k-z
+# set 은 해시 테이블 존재하여 in 시간복잡도: O(N)
 def boj2295():
     N = int(input())
-    arr = [i for i in int(input())]
-    arr.sort()
-    add_arr, sub_arr = [], []
-    for i in range(N-1):
-        for j in range(i+1,N+1):
-            add_arr.append(arr[i]+arr[j])
-    for i in range(N-1):
-        for j in range(i+1,N+1):
-            sub_arr.append(arr[j]-arr[i])
+    U = [int(input()) for _ in range(N)]
+    U.sort()
+    x_y_arr= set()
+    for x in U:
+        for y in U:
+            x_y_arr.add(x+y)
 
+    for i in range(N-1,-1,-1):
+        for j in range(i+1):
+            if U[i]-U[j] in x_y_arr: # O(1)
+                print(U[i])
+                exit(0)
 
 
 
 if __name__=='__main__':
-    boj18870()
+    boj2295()

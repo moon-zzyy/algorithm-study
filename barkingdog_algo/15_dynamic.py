@@ -234,7 +234,7 @@ def boj15486():
 
 # 참고: https://pacific-ocean.tistory.com/151
 # dp[자릿수][1의자리]
-def boj15486():
+def boj10844():
     N = int(input())
     dp = [[0]*10 for _ in range(N+1)]
     for j in range(1, 10):
