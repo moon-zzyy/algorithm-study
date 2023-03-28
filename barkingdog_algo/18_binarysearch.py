@@ -94,6 +94,25 @@ def boj2295():
                 print(U[i])
                 exit(0)
 
+# *
+# parametric search
+def boj1654():
+    def solve(x):
+        count = 0
+        for n in arr:
+            count+=n//x
+        return count>=N
+
+    K, N = map(int, input().split())
+    arr = [int(input()) for _ in range(K)]
+    s, e = 0, max(arr)
+    while s<e:
+        mid = (s+e+1)//2
+        if solve(mid): s=mid
+        else: e=mid-1
+    print(s)
+
+
 # velog
 # 이진, set/dict
 def boj10815():
@@ -137,4 +156,4 @@ def boj1822():
 
 
 if __name__=='__main__':
-    boj1822()
+    boj1654()
