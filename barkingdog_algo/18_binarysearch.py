@@ -78,7 +78,7 @@ def boj18870_2():
 # *
 # 참고: https://2hs-rti.tistory.com/entry/%EB%B0%B1%EC%A4%80-2295%EB%B2%88-%EC%84%B8-%EC%88%98%EC%9D%98-%ED%95%A9-%ED%8C%8C%EC%9D%B4%EC%8D%AC
 # x+y+z=k -> x+y=k-z
-# set 은 해시 테이블 존재하여 in 시간복잡도: O(N)
+# set 은 해시 테이블 존재하여 in 시간복잡도: O(1)
 def boj2295():
     N = int(input())
     U = [int(input()) for _ in range(N)]
@@ -94,7 +94,47 @@ def boj2295():
                 print(U[i])
                 exit(0)
 
+# velog
+# 이진, set/dict
+def boj10815():
+    N = int(input())
+    arr = set(map(int,input().split()))
+    M = int(input())
+    for target in map(int,input().split()):
+        if target in arr: # O(1)
+            print(1,end=' ')
+        else:
+            print(0,end=' ')
+
+
+def boj10815_2():
+    N = int(input())
+    arr = list(map(int,input().split()))
+    arr.sort()
+    M = int(input())
+    for target in map(int,input().split()):
+        s, e = 0, N-1
+        exist = False
+        while s<=e:
+            mid = (s+e)//2
+            if target < arr[mid]:
+                e=mid-1
+            elif target > arr[mid]:
+                s=mid+1
+            else:
+                exist = True
+                break
+        print(1 if exist else 0)
+
+
+def boj1822():
+    N, M = map(int,input().split())
+    A = set(map(int,input().split()))
+    B = set(map(int,input().split()))
+    arr = sorted(A-B) # set 정렬 후 list 리턴
+    print(len(arr))
+    print(' '.join(map(str,arr)))
 
 
 if __name__=='__main__':
-    boj2295()
+    boj1822()
