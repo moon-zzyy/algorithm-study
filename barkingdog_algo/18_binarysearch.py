@@ -154,6 +154,39 @@ def boj1822():
     print(len(arr))
     print(' '.join(map(str,arr)))
 
+# velog
+def boj16401():
+    def solve(x):
+        count = 0
+        for n in arr:
+            count+=n//x
+        return count>=M
+
+    M, N = map(int, input().split())
+    arr = list(map(int, input().split()))
+    s, e = 0, max(arr)
+    while s<e:
+        mid = (s+e+1) // 2
+        if solve(mid): s = mid
+        else: e = mid - 1
+    print(s)
+
+# velog
+def boj2805():
+    def solve(x):
+        count = 0
+        for n in arr:
+            if n-x>0: count+=n-x
+        return count>=M
+
+    N, M = map(int, input().split())
+    arr = list(map(int, input().split()))
+    s, e = 0, max(arr)
+    while s<e:
+        mid = (s+e+1)//2
+        if solve(mid): s=mid
+        else: e=mid-1
+    print(s)
 
 if __name__=='__main__':
-    boj1654()
+    boj2805()
