@@ -212,8 +212,25 @@ def boj18869():
             answer+=compare(arr[i],arr[j])
     print(answer)
 
+# two pointers??
 def boj2467():
+    N = int(input())
+    arr = list(map(int, input().split())) # 오름차순
+    l, r = 0, N-1
+    min_sum = 1e9 # 합의 최소값
+    a,b =0,0
+    while l<r:
+        temp = abs(arr[l] + arr[r])
+        if temp == 0:
+            print(arr[l], arr[r])
+            exit(0)
+        if temp <= min_sum:
+            a, b = arr[l], arr[r]
+            min_sum = temp
 
+        if temp<0: l+=1
+        else: r-=1
+    print(a,b)
 
 
 if __name__=='__main__':
