@@ -51,6 +51,7 @@ def boj10816():
         print(bisect.bisect_right(arr, target) - bisect.bisect_left(arr, target), end=' ')
 
 # velog
+# 참고: https://gudwns1243.tistory.com/52
 def boj18870():
     N = int(input())
     arr = list(map(int, input().split()))
@@ -154,6 +155,66 @@ def boj1822():
     print(len(arr))
     print(' '.join(map(str,arr)))
 
+# velog
+def boj16401():
+    def solve(x):
+        count = 0
+        for n in arr:
+            count+=n//x
+        return count>=M
+
+    M, N = map(int, input().split())
+    arr = list(map(int, input().split()))
+    s, e = 0, max(arr)
+    while s<e:
+        mid = (s+e+1) // 2
+        if solve(mid): s = mid
+        else: e = mid - 1
+    print(s)
+
+# velog
+def boj2805():
+    def solve(x):
+        count = 0
+        for n in arr:
+            if n-x>0: count+=n-x
+        return count>=M
+
+    N, M = map(int, input().split())
+    arr = list(map(int, input().split()))
+    s, e = 0, max(arr)
+    while s<e:
+        mid = (s+e+1)//2
+        if solve(mid): s=mid
+        else: e=mid-1
+    print(s)
+
+# 몰라 시간초과...
+# 참고: https://velog.io/@723poil/%EB%B0%B1%EC%A4%80%ED%8C%8C%EC%9D%B4%EC%8D%AC-18869-%EB%A9%80%ED%8B%B0%EB%B2%84%EC%8A%A4-2
+def boj18869():
+    def compare(a, b):
+        for k in range(N):
+            if a[k]!=b[k]: return 0
+        return 1
+
+    M, N = map(int, input().split())
+    arr = [] # 모든 우주 2차원 리스트
+    answer = 0
+    for i in range(M):
+        x = list(map(int, input().split()))
+        compress = []
+        for j in range(N):
+            compress.append(bisect.bisect_left(sorted(x), x[j]))
+        arr.append(list(compress))
+
+    for i in range(M-1):
+        for j in range(i+1,M):
+            answer+=compare(arr[i],arr[j])
+    print(answer)
+
+def boj2467():
+
+
 
 if __name__=='__main__':
-    boj1654()
+    boj2467()
