@@ -30,7 +30,7 @@ def boj11780():
     N = int(input())
     M = int(input())
     d = [[1e9]*(N+1) for _ in range(N+1)] # 최단 거리
-    nxt = [[0]*(N+1) for i in range(N+1)] # 최단 거리 경로 복원
+    nxt = [[0]*(N+1) for _ in range(N+1)] # 최단 거리 경로 복원
     for _ in range(M):
         a, b, c = map(int, input().split())
         d[a][b] = min(d[a][b], c)

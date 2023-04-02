@@ -13,6 +13,6 @@
 | DYNAMIC PROGRAMMING | 23/03/14 | 23/03/week4 |       |
 | GREEDY              | 23/03/19 | 23/03/week4 |       |
 | BINARY SEARCH       | 23/03/26 | 23/03/week5 |       |
-| GRAPH               | 23/      |             |       |
-| FLOYD ALGORITHM     | 23/      |             |       |
-| DIJKSTRA ALGORITHM  | 23/      |             |       |
+| GRAPH               | 23/04/01 | 23/04/week1 |       |
+| FLOYD ALGORITHM     | 23/04/02 | 23/04/week1 |       |
+| DIJKSTRA ALGORITHM  | 23/04/02 | 23/04/week1 |       |
