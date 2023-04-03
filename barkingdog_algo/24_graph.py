@@ -44,6 +44,7 @@ def boj11724():
             count+=1
     print(count)
 
+
 def boj1260():
     def BFS(start):
         queue = deque([start])
@@ -84,5 +85,88 @@ def boj1260():
     print(*answer, sep=' ')
 
 
+def boj2606():
+    V = int(input())
+    E = int(input())
+    visited = [False]*(V+1)
+    graph = [[] for _ in range(V+1)]
+    for _ in range(E):
+        u, v = map(int, input().split())
+        graph[u].append(v)
+        graph[v].append(u)
+
+    count = 0
+    queue=deque([1])
+    visited[1]=True
+    while queue:
+        v = queue.popleft()
+        for i in graph[v]:
+            if not visited[i]:
+                visited[i]=True
+                queue.append(i)
+                count+=1
+
+    print(count)
+
+# velog
+def boj5567():
+    V = int(input())
+    E = int(input())
+    visited = [0]*(V+1)
+    graph = [[] for _ in range(V+1)]
+    for _ in range(E):
+        u, v = map(int, input().split())
+        graph[u].append(v)
+        graph[v].append(u)
+
+    count = 0
+    queue=deque([1])
+    visited[1]=1
+    while queue:
+        v = queue.popleft()
+        if visited[v]>2: break
+        for i in graph[v]:
+            if visited[i]==0:
+                visited[i]=visited[v]+1
+                queue.append(i)
+                count+=1
+
+    print(count)
+
+# *
+def boj2660():
+
+    def BFS(start):
+        queue=deque([start])
+        visited[start]=1
+        while queue:
+            v = queue.popleft()
+            for i in graph[v]:
+                if visited[i]==0:
+                    visited[i]=visited[v]+1
+                    queue.append(i)
+        return max(visited)-1 # 시작이 1이므로 -1
+
+    V = int(input())
+    graph = [[] for _ in range(V + 1)]
+    while True:
+        u, v = map(int, input().split())
+        if u == -1: break
+        graph[u].append(v)
+        graph[v].append(u)
+
+    answer = { i:0 for i in range(1,V+1) } # 멤버별 점수 딕셔너리
+    for i in range(1, V+1):
+        visited = [0]*(V+1)
+        answer[i] = BFS(i)
+
+    arr = [] # 최소 점수를 가진 멤버 리스트
+    for key, value in answer.items():
+        if value == min(answer.values()):
+            arr.append(key)
+    print(min(answer.values()), len(arr))
+    print(*sorted(arr))
+
+
 if __name__=='__main__':
-    boj1260()
+    boj2660()
