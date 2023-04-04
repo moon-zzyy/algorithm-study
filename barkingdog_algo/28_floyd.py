@@ -1,14 +1,16 @@
 import sys
 input = sys.stdin.readline
+INF = sys.maxsize
+
 
 # velog
 def boj11404():
     N = int(input())
     M = int(input())
-    d = [[1e9]*(N+1) for _ in range(N+1)] # 최단 거리
+    d = [[INF]*(N+1) for _ in range(N+1)] # 최단 거리
     for _ in range(M):
         a, b, c = map(int, input().split())
-        d[a][b] = min(d[a][b], c)
+        d[a][b] = min(d[a][b], c) # 노선 하나가 아닐 수 있음
 
     # floyd algorithm
     for i in range(1,N + 1):
@@ -22,7 +24,7 @@ def boj11404():
 
     for i in range(1, N + 1):
         for j in range(1, N + 1):
-                print(0 if d[i][j]==1e9 else d[i][j], end=' ')
+                print(0 if d[i][j]==INF else d[i][j], end=' ')
         print()
 
 

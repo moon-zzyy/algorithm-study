@@ -1,10 +1,11 @@
 from heapq import heappop, heappush
 import sys
 input = sys.stdin.readline
+INF = sys.maxsize
+
 
 # velog
 def boj1753():
-    INF = sys.maxsize
     V, E = map(int, input().split())
     start = int(input())
     graph = [[] for _ in range(V+1)] # (w,v)
@@ -32,7 +33,6 @@ def boj1753():
 
 
 def boj11779():
-    INF = sys.maxsize
     V = int(input())
     E = int(input())
     d = [INF]*(V+1)  # 최단 거리
