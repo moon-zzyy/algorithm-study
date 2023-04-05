@@ -133,6 +133,44 @@ def boj5567():
 
     print(count)
 
+# floyd
+# https://whitehairhan.tistory.com/333
+def boj11403():
+    N = int(input())
+    graph = [list(map(int, input().split())) for _ in range(N)]
+
+    for i in range(N):
+        for a in range(N):
+            for b in range(N):
+                # 현재 정점을 거치면 길이 있으면
+                if graph[a][i]==1 and graph[i][b]==1:
+                    graph[a][b]=1
+
+    for row in graph:
+        print(*row)
+
+def boj11403_2():
+    N = int(input())
+    graph = [list(map(int, input().split())) for _ in range(N)]
+    visited = [[0]*N for _ in range(N)]
+
+    def BFS(x):
+        queue = deque([x])
+        check = [0 for _ in range(N)] # 현재 정점과 연결 여부
+        while queue:
+            cur = queue.popleft()
+            for i in range(N):
+                if check[i]==0 and graph[cur][i]==1:
+                    visited[x][i]=1
+                    check[i] = 1
+                    queue.append(i)
+
+    for i in range(N):
+        BFS(i)
+    for row in graph:
+        print(*row)
+
+
 # *
 def boj2660():
 
@@ -169,4 +207,4 @@ def boj2660():
 
 
 if __name__=='__main__':
-    boj2660()
+    boj11403()
