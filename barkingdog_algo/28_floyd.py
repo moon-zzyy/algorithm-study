@@ -4,23 +4,26 @@ INF = sys.maxsize
 
 
 # velog
+# https://claude-u.tistory.com/334
 def boj11404():
-    N = int(input())
-    M = int(input())
+    N = int(input()) # vertex
+    M = int(input()) # edge
     d = [[INF]*(N+1) for _ in range(N+1)] # 최단 거리
     for _ in range(M):
         a, b, c = map(int, input().split())
         d[a][b] = min(d[a][b], c) # 노선 하나가 아닐 수 있음
 
+    for i in range(1,N+1):
+        d[i][i] = 0 # 자기자신으로 가는 비용
+
     # floyd algorithm
-    for i in range(1,N + 1):
-        for s in range(1,N + 1):
-            for t in range(1,N + 1):
-                if s==t:
-                    d[s][t] = 0
-                    continue
-                if d[s][t] > d[s][i]+d[i][t]:
-                    d[s][t] = d[s][i]+d[i][t]
+    for i in range(1,N + 1): # 거치는 정점
+        for a in range(1,N + 1):
+            for b in range(1,N + 1):
+                # 시작과 도착 도시 다르고, 현재 정점을 거치는 것이 더 짧으면
+                # d[a][b] = min(d[a][b], d[a][i]+d[i][b]) 이 시간복잡도가 더 크다
+                if a!=b and d[a][b] > d[a][i]+d[i][b]:
+                    d[a][b] = d[a][i]+d[i][b]
 
     for i in range(1, N + 1):
         for j in range(1, N + 1):

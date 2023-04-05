@@ -1,7 +1,7 @@
 from collections import deque
 import sys
 input = sys.stdin.readline
-
+# MST: https://velog.io/@yoopark/baekjoon-1197
 
 def boj11724():
     def BFS(start):
