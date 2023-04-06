@@ -284,6 +284,49 @@ def boj14499():
                 board[x][y] = 0
             print(dice[1])
 
+# 삼성 sw
+def boj3190():
+    N = int(input())
+    K = int(input())
+    board = [[0]*(N) for _ in range(N)]
+    for _ in range(K):
+        y, x = map(int, input().split())
+        board[x - 1][y - 1] = 1 # 사과
+    L = int(input())
+    move = {} # move[초]=방향
+    for _ in range(L):
+        t, d = input().split()
+        move[int(t)] = d
+
+    snake = deque([(0,0)]) # 뱀이 위치한 좌표
+    dx = [0, 1, 0, -1]  # n, e, s, w
+    dy = [-1, 0, 1, 0]
+    dir = 1 # 현재 방향
+    time = 0 # 현재 시간
+    while True:
+        time+=1
+        y, x = snake[-1] # 맨 마지막이 머리
+        x, y = x+dx[dir], y+dy[dir] # 뱀 머리 이동
+        if x<0 or x>=N or y<0 or y>=N: # 벽에 부딪힘
+            break
+        if (y, x) in snake: # 몸에 부딪힘
+            break
+        # 이동 가능
+        snake.append((y, x))  # 뱀 머리 늘리기
+        if board[x][y]==1: # 사과먹기
+            board[x][y]=0
+        elif board[x][y]==0: # 뱀 꼬리 지우기
+            snake.popleft()
+
+        if time in move.keys():
+            d = move[time]
+            if d=='L': # 왼쪽으로 회전
+                dir=(dir-1)%4
+            else: # 오른쪽으로 회전
+                dir=(dir+1)%4
+
+    print(time)
+
 
 if __name__ == '__main__':
-    boj14499()
+    boj3190()
