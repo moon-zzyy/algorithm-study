@@ -1,12 +1,12 @@
-import itertools
-from copy import deepcopy
 from collections import deque
+from itertools import combinations
+from copy import deepcopy
 import sys
 input = sys.stdin.readline
 
 
 # 참고: https://velog.io/@ms269/%EB%B0%B1%EC%A4%80-15683-%EA%B0%90%EC%8B%9C-%ED%8C%8C%EC%9D%B4%EC%8D%AC-Python
-answer = 1e9
+# answer = 1e9
 def boj15683():
     def dfs(graph, depth):
         global answer
@@ -327,6 +327,48 @@ def boj3190():
 
     print(time)
 
+# 벽을 3개 세운다 3중for문?
+# 바이러스를 퍼뜨린다. bfs
+# 안전영역을 구한다. 여기서 최대값 갱신
+def boj14502():
+    def BFS(b):
+        queue = deque(virus) # 바이러스 위치 미리 저장
+        while queue:
+            x, y = queue.popleft()
+            for k in range(4):
+                nx, ny = x + dx[k], y + dy[k]
+                if 0 <= nx < N and 0 <= ny < M:
+                    if b[nx][ny] == 0:
+                        b[nx][ny] = 2  # 바이러스 퍼짐
+                        queue.append((nx,ny))
+        count = 0 # 안전영역 개수
+        for row in b:
+            count += row.count(0)
+        return count
+
+    N, M = map(int, input().split())
+    board = [list(map(int, input().split())) for _ in range(N)]
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
+    safe = [] # 초기상태에서 안전 영역 리스트
+    virus = [] # 초기상태에서 바이러스 영역 리스트
+    answer = 0
+    for x in range(N):
+        for y in range(M):
+            if board[x][y]==0:
+                safe.append((x, y))
+            elif board[x][y]==2:
+                virus.append((x,y))
+
+    for a,b,c in combinations(safe, 3): # 임의로 벽 3개 세우기
+        board2 = deepcopy(board)
+        board2[a[0]][a[1]]=1
+        board2[b[0]][b[1]]=1
+        board2[c[0]][c[1]]=1
+        answer = max(answer, BFS(board2))
+
+    print(answer)
+
 
 if __name__ == '__main__':
-    boj3190()
+    boj14502()
