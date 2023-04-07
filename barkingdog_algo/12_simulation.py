@@ -1,5 +1,5 @@
 from collections import deque
-from itertools import combinations
+from itertools import combinations, permutations
 from copy import deepcopy
 import sys
 input = sys.stdin.readline
@@ -109,7 +109,7 @@ def boj15686():
                 chickens.append((i, j))
 
     dist = [] # 치킨거리 합
-    for chicken in list(itertools.combinations(chickens, M)):
+    for chicken in list(combinations(chickens, M)):
         temp = {h: 1e9 for h in houses} # 현재 M개의 치킨집과의 치킨거리
         for cx, cy in chicken:
             for hx, hy in houses: # 한 치킨집과 모든 집과의 거리
@@ -330,6 +330,7 @@ def boj3190():
 # 벽을 3개 세운다 3중for문?
 # 바이러스를 퍼뜨린다. bfs
 # 안전영역을 구한다. 여기서 최대값 갱신
+# 참고: https://heytech.tistory.com/368
 def boj14502():
     def BFS(b):
         queue = deque(virus) # 바이러스 위치 미리 저장
@@ -369,6 +370,34 @@ def boj14502():
 
     print(answer)
 
+# *
+# 연산자 리스트 중 N-1개를 뽑는다 -> 시간초과
+# 연산자별로 계산을 한다
+# 최대값과 최소값을 갱신
+def boj14888():
+    def DFS(i, result, add, sub, mul, div):
+        global max_value,min_value
+        if i==N:
+            max_value=max(max_value, result)
+            min_value=min(min_value, result)
+            return
+        if add>0:
+            DFS(i+1, result+arr[i], add-1, sub, mul, div)
+        if sub>0:
+            DFS(i+1, result-arr[i], add, sub-1, mul, div)
+        if mul > 0:
+            DFS(i + 1, result*arr[i], add, sub, mul-1, div)
+        if div > 0:
+            DFS(i + 1, int(result/arr[i]), add, sub, mul, div-1)
+
+    N = int(input())
+    arr = list(map(int, input().split())) # 피연산자
+    add, sub, mul, div = map(int, input().split())
+    max_value = -1e9
+    min_value = 1e9
+    DFS(1, arr[0], add, sub, mul, div) # 초기값은 첫번째 숫자
+    print(max_value,min_value,sep='\n')
+
 
 if __name__ == '__main__':
-    boj14502()
+    boj14888()
