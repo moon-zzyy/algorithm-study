@@ -298,25 +298,25 @@ def boj3190():
         t, d = input().split()
         move[int(t)] = d
 
-    snake = deque([(0,0)]) # 뱀이 위치한 좌표
+    snake = [(0, 0)] # 뱀이 위치한 좌표
     dx = [0, 1, 0, -1]  # n, e, s, w
     dy = [-1, 0, 1, 0]
     dir = 1 # 현재 방향
     time = 0 # 현재 시간
     while True:
         time+=1
-        y, x = snake[-1] # 맨 마지막이 머리
+        y, x = snake[0] # 뱀 머리
         x, y = x+dx[dir], y+dy[dir] # 뱀 머리 이동
         if x<0 or x>=N or y<0 or y>=N: # 벽에 부딪힘
             break
         if (y, x) in snake: # 몸에 부딪힘
             break
         # 이동 가능
-        snake.append((y, x))  # 뱀 머리 늘리기
+        snake.insert(0, (y, x))  # 뱀 머리 늘리기
         if board[x][y]==1: # 사과먹기
             board[x][y]=0
         elif board[x][y]==0: # 뱀 꼬리 지우기
-            snake.popleft()
+            snake.pop()
 
         if time in move.keys():
             d = move[time]
@@ -399,5 +399,65 @@ def boj14888():
     print(max_value,min_value,sep='\n')
 
 
+# *
+# visited: True=스타트팀, False=링크팀
+# 개수가 N/2가 되면 능력치 계산 후 최솟값 구하기
+# answer = 1e9
+def boj14889():
+    def DFS(depth, idx):
+        global answer
+        if depth == N//2: # 팀 분리 완료
+            A, B = 0, 0 # 각 능력치
+            for i in range(N):
+                for j in range(N):
+                    if visited[i] and visited[j]:
+                        A+=board[i][j] # 스타트
+                    elif not visited[i] and not visited[j]:
+                        B+=board[i][j] # 링크
+            answer = min(answer, abs(A-B))
+            return
+
+        for i in range(idx, N):
+            if not visited[i]:
+                visited[i]=True # 스타트 팀
+                DFS(depth+1, i+1)
+                visited[i]=False # 링크 팀
+
+    N = int(input())
+    board = [ list(map(int, input().split())) for _ in range(N)]
+    visited = [False]*N
+    DFS(0, 0)
+    print(answer)
+
+
+# ***
+# 참고: https://tmdrl5779.tistory.com/146
+def boj15685():
+    N = int(input())
+    board = [[0]*101 for _ in range(101)] # 100*100 격자
+    dx = [0, -1, 0, 1] # 0:오 1:위 2:왼 3:아래
+    dy = [1, 0, -1, 0]
+    for _ in range(N):
+        y, x, d, g = map(int, input().split()) # y, x, 방향, 세대
+        board[x][y] = 1 # 드래곤커브 표시
+
+        curve = [d] # 커브 리스트
+        for i in range(g):
+            for j in range(len(curve)-1,-1,-1):
+                nxt = (curve[j]+1)%4 # 다음 방향은 현재방향+1
+                curve.append(nxt)
+
+        for i in curve:
+            x, y = x+dx[i], y+dy[i] # 드래곤 커브 표시
+            board[x][y]=1
+
+    answer = 0
+    for i in range(100):
+        for j in range(100):
+            if board[i][j]==1 and board[i+1][j]==1 and board[i][j+1]==1 and board[i+1][j+1]==1 :
+                answer+=1
+    print(answer)
+
+
 if __name__ == '__main__':
-    boj14888()
+    boj15685()
