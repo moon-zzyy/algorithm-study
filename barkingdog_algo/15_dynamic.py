@@ -46,6 +46,26 @@ def boj2579():
 
     print(sum(arr) - min(dp[N - 1], dp[N - 2]))
 
+def boj2579_2():
+    N = int(input())
+    arr = [0]
+    for _ in range(N):
+        arr.append(int(input()))
+    if N < 3:  # 계단개수 2개 이하
+        print(sum(arr))
+        exit(0)
+
+    dp = [0] * (N + 1)  # 현재 계단의 최댓값
+    # 1~3 초기값
+    dp[1] = arr[1]
+    dp[2] = arr[1]+arr[2]
+    dp[3] = max(arr[1],arr[2])+arr[3]
+
+    for i in range(4, N+1):
+        dp[i] = max(arr[i-1]+dp[i-3], dp[i-2]) + arr[i]
+
+    print(dp[N])
+
 
 def boj1149():
     N = int(input())
@@ -57,7 +77,7 @@ def boj1149():
 
     print(min(dp[N - 1]))  # 마지막 줄 집의 최솟값
 
-
+# velog
 def boj11726():
     N = int(input())
     if N < 3:
@@ -251,4 +271,4 @@ def boj10844():
 
 
 if __name__ == '__main__':
-    boj14501()
+    boj2579_2()
